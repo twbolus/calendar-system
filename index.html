@@ -375,7 +375,12 @@
                 if (resp.error !== undefined) {
                     throw (resp);
                 }
+                var token = gapi.client.getToken();
                 accessToken = gapi.client.getToken().access_token;
+
+                // Store token so you can stay signed in
+                localStorage.setItem('ggoogleAuthToken', accessToken);
+                
                 document.getElementById('authSection').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
                 document.getElementById('userName').textContent = 'Connected to Google Calendar';
@@ -395,10 +400,37 @@
                 google.accounts.oauth2.revoke(token.access_token);
                 gapi.client.setToken('');
                 accessToken = null;
+                localStorage.removeItem('googleAuthToken');
                 document.getElementById('mainContent').style.display = 'none';
                 document.getElementById('authSection').style.display = 'block';
             }
         }
+
+        function checkStoredToken() {
+            var storedToken = localStorage.getItem('googleAuthToken');
+            if (storeToken && gapiInited) {
+                // Set the stored token
+                gapi.client.setToken({access_token: storedToken});
+                accessToken = storedToken;
+
+                // Try to make a test call to see if token is still valid
+                gapi.client.calendar.calendarList.list({
+                    maxResults: 1
+                }).then(function(response) {
+                    //Token works! Show main content
+                    document.getElementById('authSection').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    document.getElementById('userName').textContent = 'Connected to Google Calendar';
+                    setQuickDate(0);
+                }).catch(function(err) {
+                    // Token expired or invalid, clear it
+                    localStorage.removeItem('googleAuthToken');
+                    gapi.client.setToken('');
+                    accessToken = null;
+                });
+            }
+        }
+                    
 
         function setQuickDate(daysFromNow) {
             var date = new Date();
@@ -508,6 +540,8 @@
         window.onload = function() {
             gapiLoaded();
             gisLoaded();
+            // Check if already signed in
+            setTimeout(checkStoredToken, 1000);
         };
     </script>
 </body>
