@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar System</title>
+    <title>Calendar Preset Manager</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📅</text></svg>">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://apis.google.com/js/api.js"></script>
@@ -272,7 +272,7 @@
             <div class="card">
                 <h2>🚐 Tour Guide</h2>
                 <div class="shifts-grid">
-                    <div class="shift-btn" onclick=toggleMilford()">
+                    <div class="shift-btn" onclick="toggleMilford()">
                         <div class="name">Milford</div>
                         <div class="time" id="milfordToggle">▼ Click to expand</div>
                     </div>
@@ -333,6 +333,16 @@
         var CLIENT_ID = '430460394008-qdrj4l7arf7et6co685lsaj69do4uehh.apps.googleusercontent.com';
         var SCOPES = 'https://www.googleapis.com/auth/calendar.events';
         var DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
+        
+        var CALENDARS = {
+            main: 'thomaswbolus@gmail.com',
+            work: '5a073ad1bb9d02c65668abeecc88b0a83d231d6c9dbadb39f234d8b94a66170c@group.calendar.google.com',
+            progression: 'ee70fece1d04cd849e531081fd001a69df77ba057d337f4960444100d75a1a3f@group.calendar.google.com',
+            enjoyment: 'bbdccdfed1c15ef17486973a18e27e8dfe83c1cdb83e2f702f8fd29c0df71776@group.calendar.google.com',
+            identity: '95ff1ca3662976f99be7b5ab75bc148a89eccddba17c8f8f81e8b40a000ae2f5@group.calendar.google.com',
+            mentalClarity: '9535bc02fe4c71257afa30b20f8ca5dc900a5d8b9d1aa8ba71679cf9b6cd847f@group.calendar.google.com',
+            skills: 'e1220fa984d045f2ed1cf052e8bac18f5c2de1d4cecc4fdd0beac53870e58361@group.calendar.google.com'
+        };
 
         var tokenClient;
         var gapiInited = false;
@@ -349,6 +359,7 @@
             }).then(function() {
                 gapiInited = true;
                 maybeEnableButtons();
+                checkStoredToken();
             });
         }
 
@@ -373,7 +384,12 @@
                 if (resp.error !== undefined) {
                     throw (resp);
                 }
-                accessToken = gapi.client.getToken().access_token;
+                var token = gapi.client.getToken();
+                accessToken = token.access_token;
+                
+                localStorage.setItem('googleAuthToken', accessToken);
+                localStorage.setItem('tokenExpiry', Date.now() + 3600000);
+                
                 document.getElementById('authSection').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
                 document.getElementById('userName').textContent = 'Connected to Google Calendar';
@@ -393,8 +409,34 @@
                 google.accounts.oauth2.revoke(token.access_token);
                 gapi.client.setToken('');
                 accessToken = null;
+                localStorage.removeItem('googleAuthToken');
+                localStorage.removeItem('tokenExpiry');
                 document.getElementById('mainContent').style.display = 'none';
                 document.getElementById('authSection').style.display = 'block';
+            }
+        }
+
+        function checkStoredToken() {
+            var storedToken = localStorage.getItem('googleAuthToken');
+            var tokenExpiry = localStorage.getItem('tokenExpiry');
+            
+            if (storedToken && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
+                gapi.client.setToken({access_token: storedToken});
+                accessToken = storedToken;
+                
+                gapi.client.calendar.calendarList.list({
+                    maxResults: 1
+                }).then(function(response) {
+                    document.getElementById('authSection').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    document.getElementById('userName').textContent = 'Connected to Google Calendar';
+                    setQuickDate(0);
+                }).catch(function(err) {
+                    localStorage.removeItem('googleAuthToken');
+                    localStorage.removeItem('tokenExpiry');
+                    gapi.client.setToken('');
+                    accessToken = null;
+                });
             }
         }
 
@@ -426,6 +468,18 @@
             }, 3000);
         }
 
+        function toggleMilford() {
+            var options = document.getElementById('milfordOptions');
+            var toggle = document.getElementById('milfordToggle');
+            if (options.style.display === 'none') {
+                options.style.display = 'block';
+                toggle.textContent = '▲ Click to collapse';
+            } else {
+                options.style.display = 'none';
+                toggle.textContent = '▼ Click to expand';
+            }
+        }
+
         function addShift(name, startTime, endTime) {
             var dateInput = document.getElementById('dateInput').value;
             if (!dateInput) {
@@ -446,14 +500,63 @@
             };
 
             gapi.client.calendar.events.insert({
-                calendarId: 'primary',
+                calendarId: CALENDARS.work,
                 resource: event,
             }).then(function(response) {
                 var date = new Date(dateInput + 'T12:00:00');
                 var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric' });
-                showMessage('✓ Added "' + name + '" on ' + dateStr, false);
+                showMessage('✓ Added "' + name + '" to Work calendar on ' + dateStr, false);
             }).catch(function(err) {
                 showMessage('Error adding event: ' + err.message, true);
+            });
+        }
+
+        function addGlenorchyTwilight() {
+            var dateInput = document.getElementById('dateInput').value;
+            if (!dateInput) {
+                showMessage('Please select a date first', true);
+                return;
+            }
+
+            var glen = {
+                summary: 'Glenorchy',
+                start: {
+                    dateTime: dateInput + 'T08:30:00',
+                    timeZone: 'Pacific/Auckland',
+                },
+                end: {
+                    dateTime: dateInput + 'T13:30:00',
+                    timeZone: 'Pacific/Auckland',
+                },
+            };
+
+            var twi = {
+                summary: 'Twilight',
+                start: {
+                    dateTime: dateInput + 'T14:45:00',
+                    timeZone: 'Pacific/Auckland',
+                },
+                end: {
+                    dateTime: dateInput + 'T19:30:00',
+                    timeZone: 'Pacific/Auckland',
+                },
+            };
+
+            Promise.all([
+                gapi.client.calendar.events.insert({
+                    calendarId: CALENDARS.work,
+                    resource: glen,
+                }),
+                gapi.client.calendar.events.insert({
+                    calendarId: CALENDARS.work,
+                    resource: twi,
+                })
+            ]).then(function() {
+                var date = new Date(dateInput + 'T12:00:00');
+                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric' });
+                showMessage('✓ Added Glenorchy + Twilight to Work calendar on ' + dateStr, false);
+            }).catch(function(err) {
+                showMessage('Error adding shifts: ' + err.message, true);
             });
         }
 
@@ -488,12 +591,12 @@
             };
 
             gapi.client.calendar.events.insert({
-                calendarId: 'primary',
+                calendarId: CALENDARS.progression,
                 resource: event,
             }).then(function(response) {
                 var date = new Date(dateInput + 'T12:00:00');
                 var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'numeric' });
-                showMessage('✓ Added "Gym - ' + workoutType + '" on ' + dateStr, false);
+                showMessage('✓ Added "Gym - ' + workoutType + '" to Progression calendar on ' + dateStr, false);
                 document.getElementById('workoutType').value = '';
             }).catch(function(err) {
                 showMessage('Error adding gym session: ' + err.message, true);
