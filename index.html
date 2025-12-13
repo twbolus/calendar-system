@@ -304,25 +304,63 @@
             </div>
 
             <div class="card">
-                <h2>💪 Gym Session (2 hours)</h2>
-                <div class="gym-form">
-                    <div class="form-group">
-                        <label>Start Time</label>
-                        <input type="time" id="gymTime">
-                    </div>
-                    <div class="form-group">
-                        <label>Workout Type</label>
-                        <select id="workoutType">
-                            <option value="">Select type...</option>
-                            <option value="Upper">Upper</option>
-                            <option value="Lower">Lower</option>
-                            <option value="Push">Push</option>
-                            <option value="Pull">Pull</option>
-                            <option value="Legs">Legs</option>
-                        </select>
+                <h2 onclick="toggleSection('strength')">
+                    💪 STRENGTH
+                    <span class="toggle-icon" id="strengthIcon">▼</span>
+                </h2>
+                <div id="strength" class="content-section" style="display: none;">
+                    <div class="activities-grid">
+                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="toggleResistanceTraining()">
+                            <div class="name">Resistance training</div>
+                            <div class="duration">90 min</div>
+                        </div>
+                        <div id="resistanceOptions" style="display: none; grid-column: 1 / -1;">
+                            <div style="margin: 15px 0 10px 0; font-weight: 600; color: #6b7280;">Bodybuilding Plan:</div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Upper', 90, 'strength', 'evening')">
+                                    <div class="name">Upper</div>
+                                </div>
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Lower', 90, 'strength', 'evening')">
+                                    <div class="name">Lower</div>
+                                </div>
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Push', 90, 'strength', 'evening')">
+                                    <div class="name">Push</div>
+                                </div>
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Pull', 90, 'strength', 'evening')">
+                                    <div class="name">Pull</div>
+                                </div>
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Legs', 90, 'strength', 'evening')">
+                                    <div class="name">Legs</div>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="toggleYoga()">
+                            <div class="name">Yoga practice</div>
+                            <div class="duration">30-60 min</div>
+                        </div>
+                        <div id="yogaOptions" style="display: none; grid-column: 1 / -1;">
+                            <div style="margin: 15px 0 10px 0; font-weight: 600; color: #6b7280;">Choose type:</div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Yoga - Yin', 30, 'strength', 'morning')">
+                                    <div class="name">Yin</div>
+                                    <div class="duration">30 min</div>
+                                </div>
+                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Yoga - Flow', 60, 'strength', 'morning')">
+                                    <div class="name">Flow</div>
+                                    <div class="duration">60 min</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Walk', 40, 'strength', 'contextual')">
+                            <div class="name">Walk</div>
+                            <div class="duration">40 min</div>
+                        </div>
+                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Meal prep', 60, 'strength', 'evening')">
+                            <div class="name">Meal prep</div>
+                            <div class="duration">60 min</div>
+                        </div>
                     </div>
                 </div>
-                <button class="btn-add" onclick="addGymSession()">Add Gym Session</button>
             </div>
 
             <div id="messageBox" style="display: none;"></div>
@@ -337,11 +375,13 @@
         var CALENDARS = {
             main: 'thomaswbolus@gmail.com',
             work: '5a073ad1bb9d02c65668abeecc88b0a83d231d6c9dbadb39f234d8b94a66170c@group.calendar.google.com',
-            progression: 'ee70fece1d04cd849e531081fd001a69df77ba057d337f4960444100d75a1a3f@group.calendar.google.com',
-            enjoyment: 'bbdccdfed1c15ef17486973a18e27e8dfe83c1cdb83e2f702f8fd29c0df71776@group.calendar.google.com',
-            identity: '95ff1ca3662976f99be7b5ab75bc148a89eccddba17c8f8f81e8b40a000ae2f5@group.calendar.google.com',
-            mentalClarity: '9535bc02fe4c71257afa30b20f8ca5dc900a5d8b9d1aa8ba71679cf9b6cd847f@group.calendar.google.com',
-            skills: 'e1220fa984d045f2ed1cf052e8bac18f5c2de1d4cecc4fdd0beac53870e58361@group.calendar.google.com'
+            strength: 'ee70fece1d04cd849e531081fd001a69df77ba057d337f4960444100d75a1a3f@group.calendar.google.com',
+            presence: 'bbdccdfed1c15ef17486973a18e27e8dfe83c1cdb83e2f702f8fd29c0df71776@group.calendar.google.com',
+            knowledge: '95ff1ca3662976f99be7b5ab75bc148a89eccddba17c8f8f81e8b40a000ae2f5@group.calendar.google.com',
+            connection: '9535bc02fe4c71257afa30b20f8ca5dc900a5d8b9d1aa8ba71679cf9b6cd847f@group.calendar.google.com',
+            creation: '3f3f119c5c3b17d0841e751bf5975afa25897488c773a7ce78852f2bdc0ff7dd@group.calendar.google.com',
+            adventure: '70d38fe222500021ce5c8f7bf19f468cb89319fbf5787ca9cd88ed09656d07d6@group.calendar.google.com',
+            maintenance: 'e8f2cc44ca37bf51a03b059402ddd1defe7039c56fe358faeee8ec8440ceafe2@group.calendar.google.com'
         };
 
         var tokenClient;
@@ -478,6 +518,87 @@
                 options.style.display = 'none';
                 toggle.textContent = '▼ Click to expand';
             }
+        }
+
+        function toggleSection(sectionId) {
+            var section = document.getElementById(sectionId);
+            var icon = document.getElementById(sectionId + 'Icon');
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+                icon.classList.add('open');
+            } else {
+                section.style.display = 'none';
+                icon.classList.remove('open');
+            }
+        }
+        
+        function toggleResistanceTraining() {
+            var options = document.getElementById('resistanceOptions');
+            if (options.style.display === 'none') {
+                options.style.display = 'block';
+            } else {
+                options.style.display = 'none';
+            }
+        }
+
+        function toggleYoga() {
+            var options = document.getElementById('yogaOptions');
+            if (options.style.display === 'none') {
+                options.style.display = 'block';
+            } else {
+                options.style.display = 'none';
+            }
+        }
+        
+        function addSmartActivity(name, duration, calendarType, timeBias) {
+            var dateInput = document.getElementById('dateInput').value;
+            if (!dateInput) {
+                showMessage('Please select a date first', true);
+                return;
+            }
+        
+            var startTime = findSmartTime(dateInput, duration, timeBias);
+            var endDateTime = new Date(startTime.getTime() + duration * 60000);
+        
+            var event = {
+                summary: name,
+                start: {
+                    dateTime: startTime.toISOString(),
+                    timeZone: 'Pacific/Auckland',
+                },
+                end: {
+                    dateTime: endDateTime.toISOString(),
+                    timeZone: 'Pacific/Auckland',
+                },
+            };
+        
+            gapi.client.calendar.events.insert({
+                calendarId: CALENDARS[calendarType],
+                resource: event,
+            }).then(function(response) {
+                var date = new Date(dateInput + 'T12:00:00');
+                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric' });
+                var timeStr = startTime.toLocaleTimeString('en-NZ', { hour: '2-digit', minute: '2-digit' });
+                showMessage('✓ Added "' + name + '" to ' + calendarType.charAt(0).toUpperCase() + calendarType.slice(1) + ' calendar at ' + timeStr, false);
+            }).catch(function(err) {
+                showMessage('Error adding activity: ' + err.message, true);
+            });
+        }
+        
+        function findSmartTime(dateStr, duration, timeBias) {
+            var dateObj = new Date(dateStr + 'T00:00:00');
+            
+            if (timeBias === 'morning') {
+                dateObj.setHours(7, 0, 0, 0);
+            } else if (timeBias === 'evening') {
+                dateObj.setHours(18, 0, 0, 0);
+            } else if (timeBias === 'contextual') {
+                dateObj.setHours(7, 0, 0, 0);
+            } else {
+                dateObj.setHours(12, 0, 0, 0);
+            }
+            
+            return dateObj;
         }
 
         function addShift(name, startTime, endTime) {
