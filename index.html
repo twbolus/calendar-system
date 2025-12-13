@@ -2,13 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar Preset Manager</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📅</text></svg>">
+    <title>The Menu - Attribute Development System</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📋</text></svg>">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://apis.google.com/js/api.js"></script>
     <style>
@@ -60,18 +56,20 @@
             font-size: 20px;
             color: #1f2937;
             margin-bottom: 20px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2:hover {
+            color: #3b82f6;
         }
         
         .auth-section {
             text-align: center;
             padding: 40px 20px;
-        }
-        
-        .auth-section svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 20px;
-            color: #3b82f6;
         }
         
         .btn-primary {
@@ -112,9 +110,7 @@
             background: #bfdbfe;
         }
         
-        input[type="date"],
-        input[type="time"],
-        select {
+        input[type="date"] {
             padding: 10px 16px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
@@ -153,38 +149,6 @@
         .shift-btn .time {
             font-size: 14px;
             color: #6b7280;
-        }
-        
-        .gym-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #374151;
-        }
-        
-        .btn-add {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            width: 100%;
-        }
-        
-        .btn-add:hover {
-            background: #059669;
         }
         
         .message {
@@ -265,10 +229,6 @@
             transform: rotate(180deg);
         }
         
-        .content-section.visible {
-            display: block;
-        }
-        
         .activity-btn .name {
             font-weight: 700;
             color: #1f2937;
@@ -282,10 +242,6 @@
         }
         
         @media (max-width: 768px) {
-            .gym-form {
-                grid-template-columns: 1fr;
-            }
-            
             .date-section input[type="date"] {
                 width: 100%;
             }
@@ -295,16 +251,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📅 Calendar Preset Manager</h1>
-            <p>Quick-add your shifts and gym sessions to Google Calendar</p>
+            <h1>📋 The Menu</h1>
+            <p>Attribute Development System</p>
         </div>
 
         <div id="authSection" class="card auth-section">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
             <h2>Connect Your Google Calendar</h2>
-            <p style="color: #6b7280; margin-bottom: 25px;">Sign in to start adding presets to your calendar</p>
+            <p style="color: #6b7280; margin-bottom: 25px;">Sign in to start building your attributes</p>
             <button id="authorizeButton" class="btn-primary">Sign in with Google</button>
         </div>
 
@@ -364,55 +317,55 @@
                     <span class="toggle-icon" id="strengthIcon">▼</span>
                 </h2>
                 <div id="strength" class="content-section" style="display: none;">
-                    <div class="activities-grid">
-                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="toggleResistanceTraining()">
+                    <div class="shifts-grid">
+                        <div class="shift-btn" onclick="toggleResistanceTraining()">
                             <div class="name">Resistance training</div>
-                            <div class="duration">90 min</div>
+                            <div class="time">90 min</div>
                         </div>
                         <div id="resistanceOptions" style="display: none; grid-column: 1 / -1;">
                             <div style="margin: 15px 0 10px 0; font-weight: 600; color: #6b7280;">Bodybuilding Plan:</div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Upper', 90, 'strength', 'evening')">
+                                <div class="shift-btn" onclick="addSmartActivity('Resistance training - Upper', 90, 'strength', 'evening')">
                                     <div class="name">Upper</div>
                                 </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Lower', 90, 'strength', 'evening')">
+                                <div class="shift-btn" onclick="addSmartActivity('Resistance training - Lower', 90, 'strength', 'evening')">
                                     <div class="name">Lower</div>
                                 </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Push', 90, 'strength', 'evening')">
+                                <div class="shift-btn" onclick="addSmartActivity('Resistance training - Push', 90, 'strength', 'evening')">
                                     <div class="name">Push</div>
                                 </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Pull', 90, 'strength', 'evening')">
+                                <div class="shift-btn" onclick="addSmartActivity('Resistance training - Pull', 90, 'strength', 'evening')">
                                     <div class="name">Pull</div>
                                 </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Legs', 90, 'strength', 'evening')">
+                                <div class="shift-btn" onclick="addSmartActivity('Resistance training - Legs', 90, 'strength', 'evening')">
                                     <div class="name">Legs</div>
                                 </div>
                             </div>
                         </div>
-                       <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="toggleYoga()">
+                        <div class="shift-btn" onclick="toggleYoga()">
                             <div class="name">Yoga practice</div>
-                            <div class="duration">30-60 min</div>
+                            <div class="time">30-60 min</div>
                         </div>
                         <div id="yogaOptions" style="display: none; grid-column: 1 / -1;">
                             <div style="margin: 15px 0 10px 0; font-weight: 600; color: #6b7280;">Choose type:</div>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Yoga - Yin', 30, 'strength', 'morning')">
+                                <div class="shift-btn" onclick="addSmartActivity('Yoga - Yin', 30, 'strength', 'morning')">
                                     <div class="name">Yin</div>
-                                    <div class="duration">30 min</div>
+                                    <div class="time">30 min</div>
                                 </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Yoga - Flow', 60, 'strength', 'morning')">
+                                <div class="shift-btn" onclick="addSmartActivity('Yoga - Flow', 60, 'strength', 'morning')">
                                     <div class="name">Flow</div>
-                                    <div class="duration">60 min</div>
+                                    <div class="time">60 min</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Walk', 40, 'strength', 'contextual')">
+                        <div class="shift-btn" onclick="addSmartActivity('Walk', 40, 'strength', 'contextual')">
                             <div class="name">Walk</div>
-                            <div class="duration">40 min</div>
+                            <div class="time">40 min</div>
                         </div>
-                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Meal prep', 60, 'strength', 'evening')">
+                        <div class="shift-btn" onclick="addSmartActivity('Meal prep', 60, 'strength', 'evening')">
                             <div class="name">Meal prep</div>
-                            <div class="duration">60 min</div>
+                            <div class="time">60 min</div>
                         </div>
                     </div>
                 </div>
@@ -733,790 +686,6 @@
                 showMessage('✓ Added Glenorchy + Twilight to Work calendar on ' + dateStr, false);
             }).catch(function(err) {
                 showMessage('Error adding shifts: ' + err.message, true);
-            });
-        }
-
-        function addGymSession() {
-            var dateInput = document.getElementById('dateInput').value;
-            var gymTime = document.getElementById('gymTime').value;
-            var workoutType = document.getElementById('workoutType').value;
-
-            if (!dateInput) {
-                showMessage('Please select a date first', true);
-                return;
-            }
-            if (!gymTime || !workoutType) {
-                showMessage('Please set time and workout type', true);
-                return;
-            }
-
-            var startDateTime = new Date(dateInput + 'T' + gymTime + ':00');
-            var endDateTime = new Date(startDateTime.getTime() + 2 * 60 * 60 * 1000);
-            var endTime = endDateTime.toTimeString().split(' ')[0].substring(0, 5);
-
-            var event = {
-                summary: 'Gym - ' + workoutType,
-                start: {
-                    dateTime: dateInput + 'T' + gymTime + ':00',
-                    timeZone: 'Pacific/Auckland',
-                },
-                end: {
-                    dateTime: dateInput + 'T' + endTime + ':00',
-                    timeZone: 'Pacific/Auckland',
-                },
-            };
-
-            gapi.client.calendar.events.insert({
-                calendarId: CALENDARS.progression,
-                resource: event,
-            }).then(function(response) {
-                var date = new Date(dateInput + 'T12:00:00');
-                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'numeric' });
-                showMessage('✓ Added "Gym - ' + workoutType + '" to Progression calendar on ' + dateStr, false);
-                document.getElementById('workoutType').value = '';
-            }).catch(function(err) {
-                showMessage('Error adding gym session: ' + err.message, true);
-            });
-        }
-
-        document.getElementById('authorizeButton').addEventListener('click', handleAuthClick);
-        document.getElementById('signoutButton').addEventListener('click', handleSignoutClick);
-
-        window.onload = function() {
-            gapiLoaded();
-            gisLoaded();
-        };
-    </script>
-</body>
-</html>
-
-    <title>Calendar Preset Manager</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📅</text></svg>">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://apis.google.com/js/api.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .header h1 {
-            font-size: 32px;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-        
-        .header p {
-            color: #6b7280;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-        
-        .card h2 {
-            font-size: 20px;
-            color: #1f2937;
-            margin-bottom: 20px;
-            cursor: pointer;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-.card h2:hover {
-    color: #3b82f6;
-}
-        
-        .auth-section {
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        .auth-section svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 20px;
-            color: #3b82f6;
-        }
-        
-        .btn-primary {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .btn-primary:hover {
-            background: #2563eb;
-        }
-        
-        .date-section {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .btn-quick {
-            background: #dbeafe;
-            color: #1e40af;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .btn-quick:hover {
-            background: #bfdbfe;
-        }
-        
-        input[type="date"],
-        input[type="time"],
-        select {
-            padding: 10px 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 14px;
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        .shifts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .shift-btn {
-            background: #eff6ff;
-            border: 2px solid #93c5fd;
-            padding: 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-        }
-        
-        .shift-btn:hover {
-            background: #dbeafe;
-            border-color: #3b82f6;
-        }
-        
-        .shift-btn .name {
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 5px;
-        }
-        
-        .shift-btn .time {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        
-        .gym-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #374151;
-        }
-        
-        .btn-add {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            width: 100%;
-        }
-        
-        .btn-add:hover {
-            background: #059669;
-        }
-        
-        .message {
-            background: #d1fae5;
-            border: 1px solid #6ee7b7;
-            color: #065f46;
-            padding: 15px 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            margin-top: 25px;
-        }
-        
-        .message.error {
-            background: #fee2e2;
-            border-color: #fca5a5;
-            color: #991b1b;
-        }
-        
-        .selected-date {
-            font-size: 14px;
-            color: #6b7280;
-            margin-top: 10px;
-        }
-        
-        .user-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: #f9fafb;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .btn-signout {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        @media (max-width: 768px) {
-            .gym-form {
-                grid-template-columns: 1fr;
-            }
-            
-            .date-section input[type="date"] {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📅 Calendar Preset Manager</h1>
-            <p>Quick-add your shifts and gym sessions to Google Calendar</p>
-        </div>
-
-        <div id="authSection" class="card auth-section">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <h2>Connect Your Google Calendar</h2>
-            <p style="color: #6b7280; margin-bottom: 25px;">Sign in to start adding presets to your calendar</p>
-            <button id="authorizeButton" class="btn-primary">Sign in with Google</button>
-        </div>
-
-        <div id="mainContent" style="display: none;">
-            <div id="userInfo" class="user-info">
-                <span id="userName"></span>
-                <button id="signoutButton" class="btn-signout">Sign Out</button>
-            </div>
-
-            <div class="card">
-                <h2>📆 Select Date</h2>
-                <div class="date-section">
-                    <button class="btn-quick" onclick="setQuickDate(0)">Today</button>
-                    <button class="btn-quick" onclick="setQuickDate(1)">Tomorrow</button>
-                    <input type="date" id="dateInput" onchange="updateSelectedDate()">
-                </div>
-                <div id="selectedDateText" class="selected-date"></div>
-            </div>
-
-            <div class="card">
-                <h2>🚐 Tour Guide</h2>
-                <div class="shifts-grid">
-                    <div class="shift-btn" onclick="toggleMilford()">
-                        <div class="name">Milford</div>
-                        <div class="time" id="milfordToggle">▼ Click to expand</div>
-                    </div>
-                    <div id="milfordOptions" style="display: none; grid-column: 1 / -1;">
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 10px;">
-                            <div class="shift-btn" onclick="addShift('Milford Early', '05:45', '19:30')">
-                                <div class="name">Early</div>
-                                <div class="time">05:45 - 19:30</div>
-                            </div>
-                            <div class="shift-btn" onclick="addShift('Milford Late', '06:45', '20:30')">
-                                <div class="name">Late</div>
-                                <div class="time">06:45 - 20:30</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="shift-btn" onclick="addGlenorchyTwilight()">
-                        <div class="name">Glenorchy/Twilight</div>
-                        <div class="time">Two shifts</div>
-                    </div>
-                    <div class="shift-btn" onclick="addShift('Best of Queenstown', '07:45', '13:00')">
-                        <div class="name">Best of Queenstown</div>
-                        <div class="time">07:45 - 13:00</div>
-                    </div>
-                    <div class="shift-btn" onclick="addShift('Sampler', '09:30', '16:30')">
-                        <div class="name">Sampler</div>
-                        <div class="time">09:30 - 16:30</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2 onclick="toggleSection('strength')">
-                    💪 STRENGTH
-                    <span class="toggle-icon" id="strengthIcon">▼</span>
-                </h2>
-                <div id="strength" class="content-section" style="display: none;">
-                    <div class="activities-grid">
-                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="toggleResistanceTraining()">
-                            <div class="name">Resistance training</div>
-                            <div class="duration">90 min</div>
-                        </div>
-                        <div id="resistanceOptions" style="display: none; grid-column: 1 / -1;">
-                            <div style="margin: 15px 0 10px 0; font-weight: 600; color: #6b7280;">Bodybuilding Plan:</div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Upper', 90, 'strength', 'evening')">
-                                    <div class="name">Upper</div>
-                                </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Lower', 90, 'strength', 'evening')">
-                                    <div class="name">Lower</div>
-                                </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Push', 90, 'strength', 'evening')">
-                                    <div class="name">Push</div>
-                                </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Pull', 90, 'strength', 'evening')">
-                                    <div class="name">Pull</div>
-                                </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Resistance training - Legs', 90, 'strength', 'evening')">
-                                    <div class="name">Legs</div>
-                                </div>
-                            </div>
-                        </div>
-                       <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="toggleYoga()">
-                            <div class="name">Yoga practice</div>
-                            <div class="duration">30-60 min</div>
-                        </div>
-                        <div id="yogaOptions" style="display: none; grid-column: 1 / -1;">
-                            <div style="margin: 15px 0 10px 0; font-weight: 600; color: #6b7280;">Choose type:</div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Yoga - Yin', 30, 'strength', 'morning')">
-                                    <div class="name">Yin</div>
-                                    <div class="duration">30 min</div>
-                                </div>
-                                <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Yoga - Flow', 60, 'strength', 'morning')">
-                                    <div class="name">Flow</div>
-                                    <div class="duration">60 min</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Walk', 40, 'strength', 'contextual')">
-                            <div class="name">Walk</div>
-                            <div class="duration">40 min</div>
-                        </div>
-                        <div class="activity-btn" style="border-color: #FF6B6B; color: #FF6B6B;" onclick="addSmartActivity('Meal prep', 60, 'strength', 'evening')">
-                            <div class="name">Meal prep</div>
-                            <div class="duration">60 min</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="messageBox" style="display: none;"></div>
-        </div>
-    </div>
-
-    <script>
-        var CLIENT_ID = '430460394008-qdrj4l7arf7et6co685lsaj69do4uehh.apps.googleusercontent.com';
-        var SCOPES = 'https://www.googleapis.com/auth/calendar.events';
-        var DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
-        
-        var CALENDARS = {
-            main: 'thomaswbolus@gmail.com',
-            work: '5a073ad1bb9d02c65668abeecc88b0a83d231d6c9dbadb39f234d8b94a66170c@group.calendar.google.com',
-            strength: 'ee70fece1d04cd849e531081fd001a69df77ba057d337f4960444100d75a1a3f@group.calendar.google.com',
-            presence: 'bbdccdfed1c15ef17486973a18e27e8dfe83c1cdb83e2f702f8fd29c0df71776@group.calendar.google.com',
-            knowledge: '95ff1ca3662976f99be7b5ab75bc148a89eccddba17c8f8f81e8b40a000ae2f5@group.calendar.google.com',
-            connection: '9535bc02fe4c71257afa30b20f8ca5dc900a5d8b9d1aa8ba71679cf9b6cd847f@group.calendar.google.com',
-            creation: '3f3f119c5c3b17d0841e751bf5975afa25897488c773a7ce78852f2bdc0ff7dd@group.calendar.google.com',
-            adventure: '70d38fe222500021ce5c8f7bf19f468cb89319fbf5787ca9cd88ed09656d07d6@group.calendar.google.com',
-            maintenance: 'e8f2cc44ca37bf51a03b059402ddd1defe7039c56fe358faeee8ec8440ceafe2@group.calendar.google.com'
-        };
-
-        var tokenClient;
-        var gapiInited = false;
-        var gisInited = false;
-        var accessToken = null;
-
-        function gapiLoaded() {
-            gapi.load('client', initializeGapiClient);
-        }
-
-        function initializeGapiClient() {
-            gapi.client.init({
-                discoveryDocs: [DISCOVERY_DOC],
-            }).then(function() {
-                gapiInited = true;
-                maybeEnableButtons();
-                checkStoredToken();
-            });
-        }
-
-        function gisLoaded() {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                callback: '',
-            });
-            gisInited = true;
-            maybeEnableButtons();
-        }
-
-        function maybeEnableButtons() {
-            if (gapiInited && gisInited) {
-                document.getElementById('authorizeButton').disabled = false;
-            }
-        }
-
-        function handleAuthClick() {
-            tokenClient.callback = function(resp) {
-                if (resp.error !== undefined) {
-                    throw (resp);
-                }
-                var token = gapi.client.getToken();
-                accessToken = token.access_token;
-                
-                localStorage.setItem('googleAuthToken', accessToken);
-                localStorage.setItem('tokenExpiry', Date.now() + 3600000);
-                
-                document.getElementById('authSection').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                document.getElementById('userName').textContent = 'Connected to Google Calendar';
-                setQuickDate(0);
-            };
-
-            if (gapi.client.getToken() === null) {
-                tokenClient.requestAccessToken({prompt: 'consent'});
-            } else {
-                tokenClient.requestAccessToken({prompt: ''});
-            }
-        }
-
-        function handleSignoutClick() {
-            var token = gapi.client.getToken();
-            if (token !== null) {
-                google.accounts.oauth2.revoke(token.access_token);
-                gapi.client.setToken('');
-                accessToken = null;
-                localStorage.removeItem('googleAuthToken');
-                localStorage.removeItem('tokenExpiry');
-                document.getElementById('mainContent').style.display = 'none';
-                document.getElementById('authSection').style.display = 'block';
-            }
-        }
-
-        function checkStoredToken() {
-            var storedToken = localStorage.getItem('googleAuthToken');
-            var tokenExpiry = localStorage.getItem('tokenExpiry');
-            
-            if (storedToken && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
-                gapi.client.setToken({access_token: storedToken});
-                accessToken = storedToken;
-                
-                gapi.client.calendar.calendarList.list({
-                    maxResults: 1
-                }).then(function(response) {
-                    document.getElementById('authSection').style.display = 'none';
-                    document.getElementById('mainContent').style.display = 'block';
-                    document.getElementById('userName').textContent = 'Connected to Google Calendar';
-                    setQuickDate(0);
-                }).catch(function(err) {
-                    localStorage.removeItem('googleAuthToken');
-                    localStorage.removeItem('tokenExpiry');
-                    gapi.client.setToken('');
-                    accessToken = null;
-                });
-            }
-        }
-
-        function setQuickDate(daysFromNow) {
-            var date = new Date();
-            date.setDate(date.getDate() + daysFromNow);
-            var dateStr = date.toISOString().split('T')[0];
-            document.getElementById('dateInput').value = dateStr;
-            updateSelectedDate();
-        }
-
-        function updateSelectedDate() {
-            var dateInput = document.getElementById('dateInput').value;
-            if (dateInput) {
-                var date = new Date(dateInput + 'T12:00:00');
-                var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                document.getElementById('selectedDateText').textContent = 
-                    'Selected: ' + date.toLocaleDateString('en-NZ', options);
-            }
-        }
-
-        function showMessage(text, isError) {
-            var msgBox = document.getElementById('messageBox');
-            msgBox.textContent = text;
-            msgBox.className = isError ? 'message error' : 'message';
-            msgBox.style.display = 'block';
-            setTimeout(function() {
-                msgBox.style.display = 'none';
-            }, 3000);
-        }
-
-        function toggleMilford() {
-            var options = document.getElementById('milfordOptions');
-            var toggle = document.getElementById('milfordToggle');
-            if (options.style.display === 'none') {
-                options.style.display = 'block';
-                toggle.textContent = '▲ Click to collapse';
-            } else {
-                options.style.display = 'none';
-                toggle.textContent = '▼ Click to expand';
-            }
-        }
-
-        function toggleSection(sectionId) {
-            var section = document.getElementById(sectionId);
-            var icon = document.getElementById(sectionId + 'Icon');
-            if (section.style.display === 'none') {
-                section.style.display = 'block';
-                icon.classList.add('open');
-            } else {
-                section.style.display = 'none';
-                icon.classList.remove('open');
-            }
-        }
-        
-        function toggleResistanceTraining() {
-            var options = document.getElementById('resistanceOptions');
-            if (options.style.display === 'none') {
-                options.style.display = 'block';
-            } else {
-                options.style.display = 'none';
-            }
-        }
-
-        function toggleYoga() {
-            var options = document.getElementById('yogaOptions');
-            if (options.style.display === 'none') {
-                options.style.display = 'block';
-            } else {
-                options.style.display = 'none';
-            }
-        }
-        
-        function addSmartActivity(name, duration, calendarType, timeBias) {
-            var dateInput = document.getElementById('dateInput').value;
-            if (!dateInput) {
-                showMessage('Please select a date first', true);
-                return;
-            }
-        
-            var startTime = findSmartTime(dateInput, duration, timeBias);
-            var endDateTime = new Date(startTime.getTime() + duration * 60000);
-        
-            var event = {
-                summary: name,
-                start: {
-                    dateTime: startTime.toISOString(),
-                    timeZone: 'Pacific/Auckland',
-                },
-                end: {
-                    dateTime: endDateTime.toISOString(),
-                    timeZone: 'Pacific/Auckland',
-                },
-            };
-        
-            gapi.client.calendar.events.insert({
-                calendarId: CALENDARS[calendarType],
-                resource: event,
-            }).then(function(response) {
-                var date = new Date(dateInput + 'T12:00:00');
-                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric' });
-                var timeStr = startTime.toLocaleTimeString('en-NZ', { hour: '2-digit', minute: '2-digit' });
-                showMessage('✓ Added "' + name + '" to ' + calendarType.charAt(0).toUpperCase() + calendarType.slice(1) + ' calendar at ' + timeStr, false);
-            }).catch(function(err) {
-                showMessage('Error adding activity: ' + err.message, true);
-            });
-        }
-        
-        function findSmartTime(dateStr, duration, timeBias) {
-            var dateObj = new Date(dateStr + 'T00:00:00');
-            
-            if (timeBias === 'morning') {
-                dateObj.setHours(7, 0, 0, 0);
-            } else if (timeBias === 'evening') {
-                dateObj.setHours(18, 0, 0, 0);
-            } else if (timeBias === 'contextual') {
-                dateObj.setHours(7, 0, 0, 0);
-            } else {
-                dateObj.setHours(12, 0, 0, 0);
-            }
-            
-            return dateObj;
-        }
-
-        function addShift(name, startTime, endTime) {
-            var dateInput = document.getElementById('dateInput').value;
-            if (!dateInput) {
-                showMessage('Please select a date first', true);
-                return;
-            }
-
-            var event = {
-                summary: name,
-                start: {
-                    dateTime: dateInput + 'T' + startTime + ':00',
-                    timeZone: 'Pacific/Auckland',
-                },
-                end: {
-                    dateTime: dateInput + 'T' + endTime + ':00',
-                    timeZone: 'Pacific/Auckland',
-                },
-            };
-
-            gapi.client.calendar.events.insert({
-                calendarId: CALENDARS.work,
-                resource: event,
-            }).then(function(response) {
-                var date = new Date(dateInput + 'T12:00:00');
-                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric' });
-                showMessage('✓ Added "' + name + '" to Work calendar on ' + dateStr, false);
-            }).catch(function(err) {
-                showMessage('Error adding event: ' + err.message, true);
-            });
-        }
-
-        function addGlenorchyTwilight() {
-            var dateInput = document.getElementById('dateInput').value;
-            if (!dateInput) {
-                showMessage('Please select a date first', true);
-                return;
-            }
-
-            var glen = {
-                summary: 'Glenorchy',
-                start: {
-                    dateTime: dateInput + 'T08:30:00',
-                    timeZone: 'Pacific/Auckland',
-                },
-                end: {
-                    dateTime: dateInput + 'T13:30:00',
-                    timeZone: 'Pacific/Auckland',
-                },
-            };
-
-            var twi = {
-                summary: 'Twilight',
-                start: {
-                    dateTime: dateInput + 'T14:45:00',
-                    timeZone: 'Pacific/Auckland',
-                },
-                end: {
-                    dateTime: dateInput + 'T19:30:00',
-                    timeZone: 'Pacific/Auckland',
-                },
-            };
-
-            Promise.all([
-                gapi.client.calendar.events.insert({
-                    calendarId: CALENDARS.work,
-                    resource: glen,
-                }),
-                gapi.client.calendar.events.insert({
-                    calendarId: CALENDARS.work,
-                    resource: twi,
-                })
-            ]).then(function() {
-                var date = new Date(dateInput + 'T12:00:00');
-                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'short', day: 'numeric' });
-                showMessage('✓ Added Glenorchy + Twilight to Work calendar on ' + dateStr, false);
-            }).catch(function(err) {
-                showMessage('Error adding shifts: ' + err.message, true);
-            });
-        }
-
-        function addGymSession() {
-            var dateInput = document.getElementById('dateInput').value;
-            var gymTime = document.getElementById('gymTime').value;
-            var workoutType = document.getElementById('workoutType').value;
-
-            if (!dateInput) {
-                showMessage('Please select a date first', true);
-                return;
-            }
-            if (!gymTime || !workoutType) {
-                showMessage('Please set time and workout type', true);
-                return;
-            }
-
-            var startDateTime = new Date(dateInput + 'T' + gymTime + ':00');
-            var endDateTime = new Date(startDateTime.getTime() + 2 * 60 * 60 * 1000);
-            var endTime = endDateTime.toTimeString().split(' ')[0].substring(0, 5);
-
-            var event = {
-                summary: 'Gym - ' + workoutType,
-                start: {
-                    dateTime: dateInput + 'T' + gymTime + ':00',
-                    timeZone: 'Pacific/Auckland',
-                },
-                end: {
-                    dateTime: dateInput + 'T' + endTime + ':00',
-                    timeZone: 'Pacific/Auckland',
-                },
-            };
-
-            gapi.client.calendar.events.insert({
-                calendarId: CALENDARS.progression,
-                resource: event,
-            }).then(function(response) {
-                var date = new Date(dateInput + 'T12:00:00');
-                var dateStr = date.toLocaleDateString('en-NZ', { weekday: 'short', month: 'numeric' });
-                showMessage('✓ Added "Gym - ' + workoutType + '" to Progression calendar on ' + dateStr, false);
-                document.getElementById('workoutType').value = '';
-            }).catch(function(err) {
-                showMessage('Error adding gym session: ' + err.message, true);
             });
         }
 
