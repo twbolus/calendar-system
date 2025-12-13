@@ -233,6 +233,37 @@
         .content-section {
             display: none;
         }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .activity-btn {
+            background: white;
+            border: 2px solid #e5e7eb;
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        
+        .activity-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .toggle-icon {
+            font-size: 14px;
+            transition: transform 0.3s;
+            margin-left: auto;
+        }
+        
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
         
         .content-section.visible {
             display: block;
@@ -812,7 +843,16 @@
             font-size: 20px;
             color: #1f2937;
             margin-bottom: 20px;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+.card h2:hover {
+    color: #3b82f6;
+}
         
         .auth-section {
             text-align: center;
